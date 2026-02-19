@@ -1,0 +1,574 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Recipe Card Component - Enhanced Design</title>
+    
+    <!-- Include the recipe card styles -->
+    <style th:replace="fragments/recipe-card :: recipe-card-styles"></style>
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            overflow: hidden;
+        }
+        
+        header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 40px;
+            text-align: center;
+        }
+        
+        header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            font-weight: 700;
+        }
+        
+        header p {
+            opacity: 0.9;
+            font-size: 1.1em;
+        }
+        
+        .content {
+            padding: 40px;
+        }
+        
+        /* Usage Information Section */
+        .usage-section {
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            padding: 30px;
+            border-radius: 10px;
+            margin-bottom: 40px;
+            border-left: 5px solid #667eea;
+        }
+        
+        .usage-section h2 {
+            color: #667eea;
+            margin-bottom: 15px;
+            font-size: 1.4em;
+        }
+        
+        .usage-section h3 {
+            color: #555;
+            margin-top: 20px;
+            margin-bottom: 10px;
+            font-size: 1.1em;
+        }
+        
+        .usage-section code {
+            background: #e9ecef;
+            padding: 3px 8px;
+            border-radius: 4px;
+            font-family: 'Courier New', monospace;
+            color: #667eea;
+            font-weight: 600;
+        }
+        
+        .usage-section pre {
+            background: #2d2d2d;
+            color: #f8f8f2;
+            padding: 20px;
+            border-radius: 6px;
+            overflow-x: auto;
+            margin-top: 10px;
+            border: 1px solid #664ba2;
+        }
+        
+        .usage-section pre code {
+            background: none;
+            padding: 0;
+            color: #f8f8f2;
+            font-size: 0.95em;
+            line-height: 1.5;
+        }
+        
+        .feature-list {
+            list-style: none;
+            margin-top: 15px;
+        }
+        
+        .feature-list li {
+            padding: 8px 0;
+            padding-left: 25px;
+            position: relative;
+        }
+        
+        .feature-list li:before {
+            content: "✓";
+            position: absolute;
+            left: 0;
+            color: #667eea;
+            font-weight: bold;
+            font-size: 1.2em;
+        }
+        
+        /* Examples Section */
+        .examples-section h2 {
+            color: #2d3436;
+            margin-bottom: 30px;
+            font-size: 1.8em;
+        }
+        
+        .cuisine-guide {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 30px;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+        }
+        
+        .cuisine-color {
+            padding: 15px;
+            border-radius: 8px;
+            color: white;
+            font-weight: 600;
+            text-align: center;
+            font-size: 0.9em;
+        }
+        
+        .recipes-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 30px;
+            margin-top: 30px;
+        }
+        
+        footer {
+            background: #f8f9fa;
+            padding: 30px 40px;
+            text-align: center;
+            color: #666;
+            border-top: 1px solid #e9ecef;
+        }
+        
+        footer a {
+            color: #667eea;
+            text-decoration: none;
+            font-weight: 600;
+        }
+        
+        footer a:hover {
+            text-decoration: underline;
+        }
+        
+        /* Example cards without images */
+        .example-card {
+            position: relative;
+        }
+        
+        .no-image .cuisine-badge-container {
+            position: static;
+            margin-bottom: 8px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🍳 Recipe Card Component</h1>
+            <p>Beautiful, Responsive Recipe Cards with Colorful Cuisine Badges</p>
+        </header>
+        
+        <div class="content">
+            <!-- Usage Information -->
+            <div class="usage-section">
+                <h2>✨ Component Features</h2>
+                <ul class="feature-list">
+                    <li>Beautiful card design with image gallery support</li>
+                    <li>Colorful, cuisine-specific badges</li>
+                    <li>Clear metadata display (prep time, cook time, servings)</li>
+                    <li>Difficulty level indicators (Easy, Medium, Hard)</li>
+                    <li>Fully responsive and mobile-friendly</li>
+                    <li>Smooth hover animations and transitions</li>
+                    <li>Accessibility-focused with ARIA labels</li>
+                    <li>Print-friendly styling</li>
+                </ul>
+                
+                <h3>💻 How to Use</h3>
+                
+                <p><strong>Step 1:</strong> Include the styles in your template's &lt;head&gt;:</p>
+                <pre><code>&lt;style th:replace="fragments/recipe-card :: recipe-card-styles"&gt;&lt;/style&gt;</code></pre>
+                
+                <p style="margin-top: 15px;"><strong>Step 2:</strong> Use the fragment to display a recipe:</p>
+                <pre><code>&lt;div th:replace="fragments/recipe-card :: recipe-card(recipe=${recipe})"&gt;&lt;/div&gt;</code></pre>
+                
+                <p style="margin-top: 15px;"><strong>Step 3:</strong> Display multiple recipes in a grid:</p>
+                <pre><code>&lt;div class="recipes-grid"&gt;
+    &lt;div th:each="recipe : ${recipes}" 
+         th:replace="fragments/recipe-card :: recipe-card(recipe=${recipe})"&gt;
+    &lt;/div&gt;
+&lt;/div&gt;</code></pre>
+            </div>
+            
+            <!-- Cuisine Color Guide -->
+            <h2>🎨 Cuisine Badge Colors</h2>
+            <div class="cuisine-guide">
+                <div class="cuisine-color" style="background: linear-gradient(135deg, #ff6b6b 0%, #ee5a6f 100%); color: white;">Italian</div>
+                <div class="cuisine-color" style="background: linear-gradient(135deg, #f7b731 0%, #f5af19 100%); color: #333;">Mexican</div>
+                <div class="cuisine-color" style="background: linear-gradient(135deg, #ff6348 0%, #fd5e53 100%); color: white;">Asian</div>
+                <div class="cuisine-color" style="background: linear-gradient(135deg, #48dbfb 0%, #1dd1a1 100%); color: white;">Mediterranean</div>
+                <div class="cuisine-color" style="background: linear-gradient(135deg, #ffa502 0%, #ff7675 100%); color: white;">Indian</div>
+                <div class="cuisine-color" style="background: linear-gradient(135deg, #a29bfe 0%, #6c5ce7 100%); color: white;">American</div>
+                <div class="cuisine-color" style="background: linear-gradient(135deg, #dfe6e9 0%, #b2bec3 100%); color: #333;">French</div>
+                <div class="cuisine-color" style="background: linear-gradient(135deg, #ff7675 0%, #d63031 100%); color: white;">Japanese</div>
+            </div>
+            
+            <!-- Example Recipe Cards -->
+            <h2 style="margin-top: 40px; margin-bottom: 30px;">📋 Example Cards</h2>
+            <div class="recipes-grid">
+                <!-- Italian Example with Image -->
+                <div class="example-card">
+                    <div class="recipe-card">
+                        <div class="recipe-image-container">
+                            <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='220'%3E%3Crect fill='%23ff6b6b' width='400' height='220'/%3E%3Ctext x='50%25' y='50%25' font-size='48' fill='white' text-anchor='middle' dominant-baseline='middle' font-weight='bold'%3EItalian Pasta%3C/text%3E%3C/svg%3E" 
+                                 alt="Photo of Spaghetti Carbonara" 
+                                 class="recipe-img">
+                            <div class="recipe-image-overlay"></div>
+                        </div>
+                        
+                        <div class="cuisine-badge-container">
+                            <span class="cuisine-badge italian">Italian</span>
+                        </div>
+                        
+                        <div class="recipe-content">
+                            <div class="recipe-header">
+                                <h3 class="recipe-title">Spaghetti Carbonara</h3>
+                            </div>
+                            
+                            <p class="recipe-description">
+                                Classic Italian pasta with creamy egg sauce, crispy bacon, and Pecorino cheese. A simple yet elegant dish.
+                            </p>
+                            
+                            <div class="recipe-meta">
+                                <div class="meta-item prep-time">
+                                    <span class="meta-icon">⏱️</span>
+                                    <div class="meta-content">
+                                        <span class="meta-label">Prep</span>
+                                        <span class="meta-value">10 min</span>
+                                    </div>
+                                </div>
+                                <div class="meta-item cook-time">
+                                    <span class="meta-icon">🔥</span>
+                                    <div class="meta-content">
+                                        <span class="meta-label">Cook</span>
+                                        <span class="meta-value">15 min</span>
+                                    </div>
+                                </div>
+                                <div class="meta-item servings">
+                                    <span class="meta-icon">🍽️</span>
+                                    <div class="meta-content">
+                                        <span class="meta-label">Serves</span>
+                                        <span class="meta-value">4</span>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="recipe-footer">
+                                <span class="difficulty-badge easy">Easy</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Mexican Example -->
+                <div class="example-card">
+                    <div class="recipe-card">
+                        <div class="recipe-image-container">
+                            <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='220'%3E%3Crect fill='%23f7b731' width='400' height='220'/%3E%3Ctext x='50%25' y='50%25' font-size='48' fill='%23333' text-anchor='middle' dominant-baseline='middle' font-weight='bold'%3EMexican Tacos%3C/text%3E%3C/svg%3E" 
+                                 alt="Photo of Tacos al Pastor" 
+                                 class="recipe-img">
+                            <div class="recipe-image-overlay"></div>
+                        </div>
+                        
+                        <div class="cuisine-badge-container">
+                            <span class="cuisine-badge mexican">Mexican</span>
+                        </div>
+                        
+                        <div class="recipe-content">
+                            <div class="recipe-header">
+                                <h3 class="recipe-title">Tacos al Pastor</h3>
+                            </div>
+                            
+                            <p class="recipe-description">
+                                Delicious marinated pork tacos with pineapple, onions, and cilantro. Served in soft corn tortillas.
+                            </p>
+                            
+                            <div class="recipe-meta">
+                                <div class="meta-item prep-time">
+                                    <span class="meta-icon">⏱️</span>
+                                    <div class="meta-content">
+                                        <span class="meta-label">Prep</span>
+                                        <span class="meta-value">20 min</span>
+                                    </div>
+                                </div>
+                                <div class="meta-item cook-time">
+                                    <span class="meta-icon">🔥</span>
+                                    <div class="meta-content">
+                                        <span class="meta-label">Cook</span>
+                                        <span class="meta-value">30 min</span>
+                                    </div>
+                                </div>
+                                <div class="meta-item servings">
+                                    <span class="meta-icon">🍽️</span>
+                                    <div class="meta-content">
+                                        <span class="meta-label">Serves</span>
+                                        <span class="meta-value">6</span>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="recipe-footer">
+                                <span class="difficulty-badge medium">Medium</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- French Example -->
+                <div class="example-card">
+                    <div class="recipe-card">
+                        <div class="recipe-image-container">
+                            <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='220'%3E%3Crect fill='%236c5ce7' width='400' height='220'/%3E%3Ctext x='50%25' y='50%25' font-size='48' fill='white' text-anchor='middle' dominant-baseline='middle' font-weight='bold'%3EFrench Cuisine%3C/text%3E%3C/svg%3E" 
+                                 alt="Photo of Beef Bourguignon" 
+                                 class="recipe-img">
+                            <div class="recipe-image-overlay"></div>
+                        </div>
+                        
+                        <div class="cuisine-badge-container">
+                            <span class="cuisine-badge french">French</span>
+                        </div>
+                        
+                        <div class="recipe-content">
+                            <div class="recipe-header">
+                                <h3 class="recipe-title">Beef Bourguignon</h3>
+                            </div>
+                            
+                            <p class="recipe-description">
+                                Rich and savory French stew with tender beef, red wine, mushrooms, and pearl onions. A true classic.
+                            </p>
+                            
+                            <div class="recipe-meta">
+                                <div class="meta-item prep-time">
+                                    <span class="meta-icon">⏱️</span>
+                                    <div class="meta-content">
+                                        <span class="meta-label">Prep</span>
+                                        <span class="meta-value">40 min</span>
+                                    </div>
+                                </div>
+                                <div class="meta-item cook-time">
+                                    <span class="meta-icon">🔥</span>
+                                    <div class="meta-content">
+                                        <span class="meta-label">Cook</span>
+                                        <span class="meta-value">120 min</span>
+                                    </div>
+                                </div>
+                                <div class="meta-item servings">
+                                    <span class="meta-icon">🍽️</span>
+                                    <div class="meta-content">
+                                        <span class="meta-label">Serves</span>
+                                        <span class="meta-value">4</span>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="recipe-footer">
+                                <span class="difficulty-badge hard">Hard</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Asian Example -->
+                <div class="example-card">
+                    <div class="recipe-card">
+                        <div class="recipe-image-container">
+                            <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='220'%3E%3Crect fill='%23fd5e53' width='400' height='220'/%3E%3Ctext x='50%25' y='50%25' font-size='44' fill='white' text-anchor='middle' dominant-baseline='middle' font-weight='bold'%3EAsian Noodles%3C/text%3E%3C/svg%3E" 
+                                 alt="Photo of Thai Pad Thai" 
+                                 class="recipe-img">
+                            <div class="recipe-image-overlay"></div>
+                        </div>
+                        
+                        <div class="cuisine-badge-container">
+                            <span class="cuisine-badge asian">Asian</span>
+                        </div>
+                        
+                        <div class="recipe-content">
+                            <div class="recipe-header">
+                                <h3 class="recipe-title">Pad Thai</h3>
+                            </div>
+                            
+                            <p class="recipe-description">
+                                Stir-fried rice noodles with shrimp, tofu, and vegetables in a tangy tamarind sauce with peanuts.
+                            </p>
+                            
+                            <div class="recipe-meta">
+                                <div class="meta-item prep-time">
+                                    <span class="meta-icon">⏱️</span>
+                                    <div class="meta-content">
+                                        <span class="meta-label">Prep</span>
+                                        <span class="meta-value">15 min</span>
+                                    </div>
+                                </div>
+                                <div class="meta-item cook-time">
+                                    <span class="meta-icon">🔥</span>
+                                    <div class="meta-content">
+                                        <span class="meta-label">Cook</span>
+                                        <span class="meta-value">10 min</span>
+                                    </div>
+                                </div>
+                                <div class="meta-item servings">
+                                    <span class="meta-icon">🍽️</span>
+                                    <div class="meta-content">
+                                        <span class="meta-label">Serves</span>
+                                        <span class="meta-value">2</span>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="recipe-footer">
+                                <span class="difficulty-badge easy">Easy</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Mediterranean Example -->
+                <div class="example-card">
+                    <div class="recipe-card">
+                        <div class="recipe-image-container">
+                            <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='220'%3E%3Crect fill='%231dd1a1' width='400' height='220'/%3E%3Ctext x='50%25' y='50%25' font-size='36' fill='white' text-anchor='middle' dominant-baseline='middle' font-weight='bold'%3EMediterranean Salad%3C/text%3E%3C/svg%3E" 
+                                 alt="Photo of Greek Salad" 
+                                 class="recipe-img">
+                            <div class="recipe-image-overlay"></div>
+                        </div>
+                        
+                        <div class="cuisine-badge-container">
+                            <span class="cuisine-badge mediterranean">Mediterranean</span>
+                        </div>
+                        
+                        <div class="recipe-content">
+                            <div class="recipe-header">
+                                <h3 class="recipe-title">Greek Salad</h3>
+                            </div>
+                            
+                            <p class="recipe-description">
+                                Fresh and healthy salad with tomatoes, cucumbers, Feta cheese, olives, and olive oil dressing.
+                            </p>
+                            
+                            <div class="recipe-meta">
+                                <div class="meta-item prep-time">
+                                    <span class="meta-icon">⏱️</span>
+                                    <div class="meta-content">
+                                        <span class="meta-label">Prep</span>
+                                        <span class="meta-value">10 min</span>
+                                    </div>
+                                </div>
+                                <div class="meta-item cook-time">
+                                    <span class="meta-icon">🔥</span>
+                                    <div class="meta-content">
+                                        <span class="meta-label">Cook</span>
+                                        <span class="meta-value">0 min</span>
+                                    </div>
+                                </div>
+                                <div class="meta-item servings">
+                                    <span class="meta-icon">🍽️</span>
+                                    <div class="meta-content">
+                                        <span class="meta-label">Serves</span>
+                                        <span class="meta-value">4</span>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="recipe-footer">
+                                <span class="difficulty-badge easy">Easy</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Indian Example -->
+                <div class="example-card">
+                    <div class="recipe-card">
+                        <div class="recipe-image-container">
+                            <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='220'%3E%3Crect fill='%23ffa502' width='400' height='220'/%3E%3Ctext x='50%25' y='50%25' font-size='48' fill='white' text-anchor='middle' dominant-baseline='middle' font-weight='bold'%3EIndian Curry%3C/text%3E%3C/svg%3E" 
+                                 alt="Photo of Tikka Masala" 
+                                 class="recipe-img">
+                            <div class="recipe-image-overlay"></div>
+                        </div>
+                        
+                        <div class="cuisine-badge-container">
+                            <span class="cuisine-badge indian">Indian</span>
+                        </div>
+                        
+                        <div class="recipe-content">
+                            <div class="recipe-header">
+                                <h3 class="recipe-title">Chicken Tikka Masala</h3>
+                            </div>
+                            
+                            <p class="recipe-description">
+                                Tender marinated chicken in a creamy tomato-based curry sauce with warming spices and yogurt.
+                            </p>
+                            
+                            <div class="recipe-meta">
+                                <div class="meta-item prep-time">
+                                    <span class="meta-icon">⏱️</span>
+                                    <div class="meta-content">
+                                        <span class="meta-label">Prep</span>
+                                        <span class="meta-value">30 min</span>
+                                    </div>
+                                </div>
+                                <div class="meta-item cook-time">
+                                    <span class="meta-icon">🔥</span>
+                                    <div class="meta-content">
+                                        <span class="meta-label">Cook</span>
+                                        <span class="meta-value">40 min</span>
+                                    </div>
+                                </div>
+                                <div class="meta-item servings">
+                                    <span class="meta-icon">🍽️</span>
+                                    <div class="meta-content">
+                                        <span class="meta-label">Serves</span>
+                                        <span class="meta-value">4</span>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="recipe-footer">
+                                <span class="difficulty-badge medium">Medium</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <footer>
+            <p>🎨 <strong>Recipe Card Component</strong> - Built with HTML, CSS, and Thymeleaf | <a href="/">Back to Home</a></p>
+        </footer>
+    </div>
+</body>
+</html>

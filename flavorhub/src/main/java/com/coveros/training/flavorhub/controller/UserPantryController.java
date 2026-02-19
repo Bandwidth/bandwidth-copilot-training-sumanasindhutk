@@ -5,18 +5,22 @@ import com.coveros.training.flavorhub.service.UserPantryService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.Positive;
 import java.util.List;
 
 /**
  * REST Controller for managing user pantry
+ * Uses Spring validation annotations to enforce input constraints
  * NOTE: Some endpoints are intentionally incomplete for workshop exercises
  */
 @RestController
 @RequestMapping("/api/pantry")
 @RequiredArgsConstructor
+@Validated
 public class UserPantryController {
     
     private final UserPantryService userPantryService;
@@ -57,9 +61,16 @@ public class UserPantryController {
     
     /**
      * Delete a pantry item
+     * Validates that the pantry item ID is a positive number
+     * 
+     * @param id The pantry item ID (must be positive)
+     * @return 204 No Content on successful deletion
      */
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deletePantryItem(@PathVariable Long id) {
+    public ResponseEntity<Void> deletePantryItem(
+            @PathVariable 
+            @Positive(message = "Pantry item ID must be a positive number")
+            Long id) {
         userPantryService.deletePantryItem(id);
         return ResponseEntity.noContent().build();
     }

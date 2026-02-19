@@ -71,17 +71,40 @@
             background: #f8f9fa;
             padding: 25px;
             border-radius: 8px;
-            border-left: 4px solid #667eea;
+            border-left: 4px solid #BF00FF;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+            cursor: pointer;
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(191, 0, 255, 0.4);
+            border-left-width: 6px;
+            background: #ffffff;
         }
         
         .feature-card h3 {
             color: #333;
             margin-bottom: 10px;
+            transition: color 0.3s ease;
+        }
+        
+        .feature-card:hover h3 {
+            color: #BF00FF;
         }
         
         .feature-card p {
             color: #666;
             font-size: 0.95em;
+        }
+        
+        .feature-card a {
+            transition: color 0.3s ease;
+        }
+        
+        .feature-card:hover a {
+            color: #FF00FF;
         }
         
         .api-section {
@@ -148,6 +171,767 @@
             color: #666;
             font-size: 0.9em;
         }
+        
+        /* Recipe Search Section */
+        .search-section {
+            margin-bottom: 40px;
+            padding: 30px;
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.08) 0%, rgba(118, 75, 162, 0.08) 100%);
+            border-radius: 8px;
+            border: 1px solid rgba(191, 0, 255, 0.2);
+        }
+        
+        .search-section h2 {
+            color: #667eea;
+            margin-bottom: 20px;
+            font-size: 1.5em;
+        }
+        
+        .search-input-wrapper {
+            position: relative;
+            margin-bottom: 20px;
+        }
+        
+        .search-input-container {
+            display: flex;
+            align-items: center;
+            position: relative;
+        }
+        
+        .search-input-wrapper input {
+            width: 100%;
+            padding: 14px 40px 14px 16px;
+            font-size: 1em;
+            border: 2px solid rgba(191, 0, 255, 0.3);
+            border-radius: 6px;
+            background: #ffffff;
+            transition: all 0.3s ease;
+        }
+        
+        .search-input-wrapper input:focus {
+            outline: none;
+            border-color: #BF00FF;
+            box-shadow: 0 0 0 3px rgba(191, 0, 255, 0.2);
+            background: #ffffff;
+        }
+        
+        .search-input-wrapper input::placeholder {
+            color: #999;
+        }
+        
+        /* Clear button */
+        .search-clear-btn {
+            position: absolute;
+            right: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: none;
+            border: none;
+            font-size: 1.2em;
+            color: #999;
+            cursor: pointer;
+            opacity: 0;
+            transition: opacity 0.2s ease, color 0.2s ease;
+            padding: 4px 8px;
+        }
+        
+        .search-clear-btn:hover {
+            color: #BF00FF;
+        }
+        
+        .search-input-wrapper input:not(:placeholder-shown) ~ .search-clear-btn,
+        .search-input-wrapper input:focus ~ .search-clear-btn {
+            opacity: 1;
+        }
+        
+        /* Search history dropdown */
+        .search-history-dropdown {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            right: 0;
+            background: white;
+            border: 1px solid rgba(191, 0, 255, 0.2);
+            border-top: none;
+            border-radius: 0 0 6px 6px;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease, opacity 0.3s ease;
+            opacity: 0;
+            z-index: 100;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+        
+        .search-history-dropdown.open {
+            max-height: 300px;
+            opacity: 1;
+        }
+        
+        .search-history-list {
+            list-style: none;
+            margin: 0;
+            padding: 8px 0;
+        }
+        
+        .search-history-item {
+            padding: 10px 16px;
+            cursor: pointer;
+            transition: background-color 0.2s ease;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        
+        .search-history-item:hover {
+            background-color: #f5f5f5;
+        }
+        
+        .search-history-item strong {
+            flex: 1;
+            color: #333;
+        }
+        
+        .search-history-time {
+            font-size: 0.8em;
+            color: #999;
+            margin-left: 10px;
+        }
+        
+        .search-history-label {
+            font-size: 0.8em;
+            color: #999;
+            text-transform: uppercase;
+            font-weight: 600;
+            padding: 6px 16px;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+        }
+        
+        .search-results {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+            animation: slideDown 0.3s ease;
+        }
+        
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .recipe-result-card {
+            background: white;
+            border-radius: 8px;
+            border-left: 4px solid #BF00FF;
+            padding: 20px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            animation: fadeInCard 0.4s ease-out;
+        }
+        
+        .recipe-result-card.highlighted {
+            background: #f8f9fa;
+            border-left-color: #667eea;
+            border-left-width: 6px;
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.2);
+        }
+        
+        @keyframes fadeInCard {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .recipe-result-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(191, 0, 255, 0.3);
+            border-left-width: 6px;
+        }
+        
+        .recipe-result-card h3 {
+            color: #333;
+            margin-bottom: 10px;
+            font-size: 1.2em;
+        }
+        
+        .recipe-result-card:hover h3 {
+            color: #BF00FF;
+        }
+        
+        .recipe-meta {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-bottom: 12px;
+            align-items: center;
+        }
+        
+        .recipe-badge {
+            display: inline-block;
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 0.8em;
+            font-weight: 600;
+        }
+        
+        .badge-cuisine {
+            background: #e3f2fd;
+            color: #1976d2;
+        }
+        
+        .badge-difficulty {
+            background: #f0f0f0;
+            color: #333;
+            text-transform: capitalize;
+        }
+        
+        .badge-difficulty.easy {
+            background: #d4edda;
+            color: #155724;
+        }
+        
+        .badge-difficulty.medium {
+            background: #fff3cd;
+            color: #856404;
+        }
+        
+        .badge-difficulty.hard {
+            background: #f8d7da;
+            color: #721c24;
+        }
+        
+        .recipe-details {
+            color: #666;
+            font-size: 0.95em;
+            line-height: 1.5;
+            margin-top: 12px;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease;
+        }
+        
+        .recipe-result-card.expanded .recipe-details {
+            max-height: 500px;
+        }
+        
+        .recipe-details p {
+            margin-bottom: 8px;
+        }
+        
+        .recipe-details-label {
+            font-weight: 600;
+            color: #667eea;
+            display: inline-block;
+            min-width: 70px;
+        }
+        
+        .no-results {
+            text-align: center;
+            padding: 60px 20px;
+            color: #999;
+        }
+        
+        .no-results-icon {
+            font-size: 4em;
+            margin-bottom: 20px;
+            opacity: 0.6;
+        }
+        
+        .no-results-title {
+            font-size: 1.3em;
+            color: #333;
+            font-weight: 600;
+            margin-bottom: 12px;
+        }
+        
+        .no-results p {
+            font-size: 0.95em;
+            margin-bottom: 8px;
+            line-height: 1.6;
+        }
+        
+        .no-results-tips {
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px solid #eee;
+            font-size: 0.9em;
+        }
+        
+        .no-results-tips strong {
+            color: #667eea;
+            display: block;
+            margin-bottom: 8px;
+        }
+        
+        .no-results-tips ul {
+            list-style-position: inside;
+            color: #999;
+            line-height: 1.8;
+        }
+        
+        .no-results-tips li {
+            margin-bottom: 4px;
+        }
+        
+        .search-error {
+            background: #f8d7da;
+            border: 1px solid #f5c6cb;
+            color: #721c24;
+            padding: 15px;
+            border-radius: 5px;
+            margin-top: 15px;
+        }
+        
+        .search-loading {
+            text-align: center;
+            padding: 20px;
+            color: #667eea;
+        }
+        
+        /* Recipe of the Day Section */
+        .recipe-of-day-section {
+            margin-bottom: 40px;
+            padding: 30px;
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.08) 0%, rgba(118, 75, 162, 0.06) 100%);
+            border-radius: 12px;
+            border: 1px solid rgba(191, 0, 255, 0.2);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .recipe-of-day-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: 
+                radial-gradient(circle at 20% 50%, rgba(102, 126, 234, 0.05) 0%, transparent 50%),
+                radial-gradient(circle at 80% 80%, rgba(191, 0, 255, 0.05) 0%, transparent 50%);
+            pointer-events: none;
+        }
+        
+        .recipe-of-day-section::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-image: 
+                linear-gradient(45deg, transparent 48%, rgba(255, 255, 255, 0.03) 49%, rgba(255, 255, 255, 0.03) 51%, transparent 52%);
+            background-size: 60px 60px;
+            pointer-events: none;
+        }
+        
+        .recipe-of-day-section h2 {
+            color: #667eea;
+            margin-bottom: 20px;
+            font-size: 1.6em;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .recipe-of-day-card {
+            background: white;
+            border-radius: 8px;
+            border-left: 5px solid #BF00FF;
+            padding: 25px;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.2);
+            animation: fadeInRecipe 0.6s ease-out;
+            position: relative;
+            z-index: 1;
+        }
+        
+        @keyframes fadeInRecipe {
+            from {
+                opacity: 0;
+                transform: scale(0.95) translateY(15px);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1) translateY(0);
+            }
+        }
+        
+        .recipe-of-day-card:hover {
+            box-shadow: 0 12px 35px rgba(191, 0, 255, 0.35);
+            transform: translateY(-5px);
+            transition: all 0.3s ease;
+        }
+        
+        /* Loading Spinner */
+        .recipe-of-day-spinner {
+            display: inline-block;
+            width: 40px;
+            height: 40px;
+            border: 4px solid rgba(102, 126, 234, 0.15);
+            border-top-color: #667eea;
+            border-radius: 50%;
+            animation: spinnerRotate 0.8s linear infinite;
+            margin-right: 15px;
+        }
+        
+        @keyframes spinnerRotate {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+        
+        .recipe-of-day-loading {
+            text-align: center;
+            padding: 40px 20px;
+            color: #667eea;
+            position: relative;
+            z-index: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 80px;
+        }
+        
+        .recipe-of-day-loading p {
+            margin: 0;
+            display: flex;
+            align-items: center;
+            font-weight: 500;
+        }
+        
+        /* Random Recipe Button */
+        .recipe-of-day-button-group {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+            margin-top: 20px;
+        }
+        
+        .recipe-of-day-button-group .recipe-of-day-button {
+            flex: 1;
+            min-width: 200px;
+        }
+        
+        .recipe-of-day-button-random {
+            display: inline-block;
+            padding: 12px 24px;
+            background: linear-gradient(135deg, #764ba2 0%, #667eea 100%);
+            color: white;
+            text-decoration: none;
+            border-radius: 6px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+            font-size: 1em;
+            flex: 1;
+            min-width: 200px;
+        }
+        
+        .recipe-of-day-button-random:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(118, 75, 162, 0.4);
+        }
+        
+        .recipe-of-day-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: start;
+            margin-bottom: 15px;
+        }
+        
+        .recipe-of-day-title {
+            color: #333;
+            font-size: 1.6em;
+            margin: 0 0 10px 0;
+            flex: 1;
+        }
+        
+        .recipe-of-day-badge {
+            display: inline-block;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.75em;
+            font-weight: bold;
+            text-transform: uppercase;
+            white-space: nowrap;
+            margin-left: 10px;
+        }
+        
+        .recipe-of-day-description {
+            color: #666;
+            font-size: 1em;
+            margin-bottom: 15px;
+            line-height: 1.6;
+        }
+        
+        .recipe-of-day-meta {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+            margin-bottom: 15px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .recipe-of-day-badge-cuisine {
+            background: #e3f2fd;
+            color: #1976d2;
+            padding: 5px 10px;
+            border-radius: 15px;
+            font-size: 0.85em;
+            font-weight: 500;
+        }
+        
+        .recipe-of-day-badge-difficulty {
+            padding: 5px 10px;
+            border-radius: 15px;
+            font-size: 0.85em;
+            font-weight: 500;
+        }
+        
+        .recipe-of-day-badge-difficulty.easy {
+            background: #d4edda;
+            color: #155724;
+        }
+        
+        .recipe-of-day-badge-difficulty.medium {
+            background: #fff3cd;
+            color: #856404;
+        }
+        
+        .recipe-of-day-badge-difficulty.hard {
+            background: #f8d7da;
+            color: #721c24;
+        }
+        
+        .recipe-of-day-times {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+        
+        .time-item {
+            text-align: center;
+            padding: 12px;
+            background: #f8f9fa;
+            border-radius: 6px;
+        }
+        
+        .time-label {
+            font-size: 0.8em;
+            color: #999;
+            text-transform: uppercase;
+            margin-bottom: 5px;
+            font-weight: 600;
+        }
+        
+        .time-value {
+            font-size: 1.3em;
+            color: #667eea;
+            font-weight: 700;
+        }
+        
+        .recipe-of-day-button {
+            display: inline-block;
+            padding: 12px 24px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            text-decoration: none;
+            border-radius: 6px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+            font-size: 1em;
+        }
+        
+        .recipe-of-day-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(191, 0, 255, 0.4);
+        }
+        
+        .recipe-of-day-error {
+            background: #f8d7da;
+            border: 1px solid #f5c6cb;
+            color: #721c24;
+            padding: 15px;
+            border-radius: 5px;
+            position: relative;
+            z-index: 1;
+        }
+        
+        @media (max-width: 768px) {
+            .recipe-of-day-section {
+                padding: 20px;
+                margin-bottom: 30px;
+                border: 1px solid rgba(191, 0, 255, 0.2);
+            }
+            
+            .recipe-of-day-section h2 {
+                font-size: 1.4em;
+                margin-bottom: 18px;
+            }
+            
+            .recipe-of-day-card {
+                padding: 18px;
+            }
+            
+            .recipe-of-day-header {
+                flex-direction: column;
+            }
+            
+            .recipe-of-day-title {
+                font-size: 1.4em;
+                margin-bottom: 12px;
+                line-height: 1.3;
+            }
+            
+            .recipe-of-day-description {
+                font-size: 1.05em;
+                line-height: 1.7;
+            }
+            
+            .recipe-of-day-badge {
+                margin-left: 0;
+                margin-top: 10px;
+            }
+            
+            .recipe-of-day-badge-cuisine,
+            .recipe-of-day-badge-difficulty {
+                font-size: 0.95em;
+                padding: 7px 12px;
+            }
+            
+            .recipe-of-day-times {
+                grid-template-columns: repeat(3, 1fr);
+                gap: 12px;
+            }
+            
+            .time-item {
+                padding: 10px;
+            }
+            
+            .time-label {
+                font-size: 0.85em;
+            }
+            
+            .time-value {
+                font-size: 1.4em;
+            }
+            
+            .recipe-of-day-button-group {
+                flex-direction: column;
+            }
+            
+            .recipe-of-day-button,
+            .recipe-of-day-button-random {
+                width: 100%;
+                min-width: unset;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .recipe-of-day-section {
+                padding: 16px;
+                margin-bottom: 24px;
+            }
+            
+            .recipe-of-day-section h2 {
+                font-size: 1.25em;
+            }
+            
+            .recipe-of-day-card {
+                padding: 14px;
+            }
+            
+            .recipe-of-day-title {
+                font-size: 1.2em;
+                margin-bottom: 12px;
+            }
+            
+            .recipe-of-day-description {
+                font-size: 0.95em;
+                margin-bottom: 12px;
+            }
+            
+            .recipe-of-day-meta {
+                gap: 8px;
+                margin-bottom: 12px;
+                padding-bottom: 12px;
+            }
+            
+            .recipe-of-day-badge-cuisine,
+            .recipe-of-day-badge-difficulty {
+                font-size: 0.85em;
+                padding: 5px 10px;
+            }
+            
+            .recipe-of-day-times {
+                grid-template-columns: repeat(3, 1fr);
+                gap: 8px;
+                margin-bottom: 15px;
+            }
+            
+            .time-item {
+                padding: 8px;
+            }
+            
+            .time-label {
+                font-size: 0.75em;
+            }
+            
+            .time-value {
+                font-size: 1.1em;
+            }
+            
+            .recipe-of-day-button-group {
+                flex-direction: column;
+            }
+            
+            .recipe-of-day-button,
+            .recipe-of-day-button-random {
+                width: 100%;
+                min-width: unset;
+                padding: 10px 16px;
+                font-size: 0.95em;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .search-section {
+                padding: 20px;
+                margin-bottom: 30px;
+            }
+            
+            .search-section h2 {
+                font-size: 1.3em;
+                margin-bottom: 15px;
+            }
+            
+            .search-results {
+                grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+                gap: 15px;
+            }
+            
+            .recipe-result-card {
+                padding: 15px;
+            }
+        }
     </style>
 </head>
 <body>
@@ -161,6 +945,34 @@
             <div class="welcome">
                 <h2>Welcome to the FlavorHub Workshop!</h2>
                 <p>Learn to use GitHub Copilot by building features for this recipe recommendation application</p>
+            </div>
+            
+            <!-- Recipe of the Day Section -->
+            <div class="recipe-of-day-section">
+                <h2>⭐ Recipe of the Day</h2>
+                <div id="recipeOfDayContainer" class="recipe-of-day-loading">
+                    <p><span class="recipe-of-day-spinner"></span>Loading today's featured recipe...</p>
+                </div>
+            </div>
+            
+            <!-- Recipe Search Section -->
+            <div class="search-section">
+                <h2>🔍 Find Recipes</h2>
+                <div class="search-input-wrapper">
+                    <div class="search-input-container">
+                        <input 
+                            type="text" 
+                            id="recipeSearchInput" 
+                            placeholder="Search recipes (e.g., pasta, pizza, salad)..."
+                            autocomplete="off"
+                        >
+                        <button class="search-clear-btn" id="searchClearBtn" title="Clear search" style="display: none;">✕</button>
+                    </div>
+                    <ul class="search-history-dropdown" id="searchHistoryDropdown">
+                        <li class="search-history-label">📋 Recent Searches</li>
+                    </ul>
+                </div>
+                <div id="searchResults" class="search-results"></div>
             </div>
             
             <div class="features">
@@ -239,5 +1051,391 @@
             <p>Access H2 Console at: <a href="/h2-console" target="_blank">/h2-console</a></p>
         </footer>
     </div>
+    
+    <script>
+        // Debounce utility function - delays search until user stops typing
+        function debounce(func, ms) {
+            let timeout;
+            return function(...args) {
+                clearTimeout(timeout);
+                timeout = setTimeout(() => func.apply(this, args), ms);
+            };
+        }
+        
+        // Get DOM elements
+        const searchInput = document.getElementById('recipeSearchInput');
+        const searchResults = document.getElementById('searchResults');
+        const searchClearBtn = document.getElementById('searchClearBtn');
+        const searchHistoryDropdown = document.getElementById('searchHistoryDropdown');
+        
+        // Search history state
+        let currentHighlightedIndex = -1;
+        const MAX_HISTORY_ITEMS = 5;
+        const HISTORY_STORAGE_KEY = 'flavorhub_search_history';
+        
+        /**
+         * Load search history from localStorage
+         */
+        function loadSearchHistory() {
+            const stored = localStorage.getItem(HISTORY_STORAGE_KEY);
+            return stored ? JSON.parse(stored) : [];
+        }
+        
+        /**
+         * Save search query to history
+         */
+        function saveToHistory(query) {
+            if (!query || query.trim().length < 2) return;
+            
+            let history = loadSearchHistory();
+            const lowerQuery = query.trim().toLowerCase();
+            
+            // Remove if already exists (to avoid duplicates)
+            history = history.filter(item => item.query.toLowerCase() !== lowerQuery);
+            
+            // Add to beginning with timestamp
+            history.unshift({ 
+                query: query.trim(), 
+                timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
+            });
+            
+            // Keep only last 5
+            history = history.slice(0, MAX_HISTORY_ITEMS);
+            localStorage.setItem(HISTORY_STORAGE_KEY, JSON.stringify(history));
+        }
+        
+        /**
+         * Display search history dropdown
+         */
+        function updateHistoryDropdown() {
+            const history = loadSearchHistory();
+            
+            if (history.length === 0) {
+                searchHistoryDropdown.innerHTML = '<li class="search-history-label">📋 Recent Searches</li>';
+                return;
+            }
+            
+            const items = history.map((item, idx) => `
+                <li class="search-history-item" data-index="${idx}">
+                    <strong>🔎 ${escapeHtml(item.query)}</strong>
+                    <span class="search-history-time">${item.timestamp}</span>
+                </li>
+            `).join('');
+            
+            searchHistoryDropdown.innerHTML = '<li class="search-history-label">📋 Recent Searches</li>' + items;
+            
+            // Add click handlers for history items
+            document.querySelectorAll('.search-history-item').forEach(item => {
+                item.addEventListener('click', function() {
+                    const query = this.querySelector('strong').textContent.replace('🔎 ', '');
+                    searchInput.value = query;
+                    searchHistoryDropdown.classList.remove('open');
+                    performSearch(query);
+                });
+            });
+        }
+        
+        // Perform search with debounce (500ms delay)
+        const performSearch = debounce(async function(query) {
+            currentHighlightedIndex = -1;
+            
+            if (!query || query.trim().length < 2) {
+                searchResults.innerHTML = '';
+                return;
+            }
+            
+            try {
+                searchResults.innerHTML = '<div class="search-loading">Searching recipes...</div>';
+                
+                const response = await fetch(`/api/recipes/search?query=${encodeURIComponent(query.trim())}`);
+                if (!response.ok) {
+                    throw new Error('Failed to fetch recipes');
+                }
+                
+                const recipes = await response.json();
+                saveToHistory(query);
+                displayRecipeResults(recipes.slice(0, 10)); // Cap at 10 results
+            } catch (error) {
+                console.error('Search error:', error);
+                searchResults.innerHTML = `
+                    <div class="search-error">
+                        <strong>Error:</strong> Unable to load recipes. Please try again.
+                    </div>
+                `;
+            }
+        }, 500);
+        
+        /**
+         * Display recipe results with enhanced empty state
+         */
+        function displayRecipeResults(recipes) {
+            if (recipes.length === 0) {
+                searchResults.innerHTML = `
+                    <div class="no-results">
+                        <div class="no-results-icon">🍽️</div>
+                        <div class="no-results-title">No recipes found</div>
+                        <p>We couldn't find any recipes matching your search.</p>
+                        <div class="no-results-tips">
+                            <strong>💡 Search Tips:</strong>
+                            <ul>
+                                <li>Try searching for broader terms (e.g., "pasta" instead of "penne")</li>
+                                <li>Use ingredient names (e.g., "chicken", "salad")</li>
+                                <li>Try cuisine types (e.g., "Italian", "Asian")</li>
+                                <li>Check your spelling and try again</li>
+                            </ul>
+                        </div>
+                    </div>
+                `;
+                return;
+            }
+            
+            searchResults.innerHTML = recipes.map((recipe, index) => `
+                <div class="recipe-result-card" data-recipe-id="${recipe.id}" data-index="${index}">
+                    <h3>${escapeHtml(recipe.name)}</h3>
+                    <div class="recipe-meta">
+                        <span class="recipe-badge badge-cuisine">${escapeHtml(recipe.cuisineType || 'Cuisine')}</span>
+                        <span class="recipe-badge badge-difficulty ${(recipe.difficultyLevel || 'easy').toLowerCase()}">
+                            ${escapeHtml(recipe.difficultyLevel || 'Easy')}
+                        </span>
+                    </div>
+                    <div class="recipe-details">
+                        <p>${escapeHtml(recipe.description || 'No description available')}</p>
+                        <p><span class="recipe-details-label">Prep:</span> ${recipe.prepTime || 0} min</p>
+                        <p><span class="recipe-details-label">Cook:</span> ${recipe.cookTime || 0} min</p>
+                        <p><span class="recipe-details-label">Servings:</span> ${recipe.servings || 'N/A'}</p>
+                    </div>
+                </div>
+            `).join('');
+            
+            // Add click handlers for card expansion
+            document.querySelectorAll('.recipe-result-card').forEach(card => {
+                card.addEventListener('click', function() {
+                    this.classList.toggle('expanded');
+                });
+            });
+        }
+        
+        /**
+         * Navigate through search results with arrow keys
+         */
+        function navigateResults(direction) {
+            const cards = document.querySelectorAll('.recipe-result-card');
+            if (cards.length === 0) return;
+            
+            // Clear previous highlight
+            if (currentHighlightedIndex !== -1) {
+                cards[currentHighlightedIndex].classList.remove('highlighted');
+            }
+            
+            // Calculate new index
+            if (direction === 'down') {
+                currentHighlightedIndex = (currentHighlightedIndex + 1) % cards.length;
+            } else if (direction === 'up') {
+                currentHighlightedIndex = (currentHighlightedIndex - 1 + cards.length) % cards.length;
+            }
+            
+            // Highlight new card
+            cards[currentHighlightedIndex].classList.add('highlighted');
+            cards[currentHighlightedIndex].scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        }
+        
+        /**
+         * Select highlighted result
+         */
+        function selectHighlightedResult() {
+            if (currentHighlightedIndex !== -1) {
+                const cards = document.querySelectorAll('.recipe-result-card');
+                cards[currentHighlightedIndex].click();
+            }
+        }
+        
+        // Utility function to escape HTML special characters
+        function escapeHtml(text) {
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
+        
+        // Listen for input changes
+        searchInput.addEventListener('input', function(event) {
+            performSearch(event.target.value);
+        });
+        
+        // Clear button functionality
+        searchClearBtn.addEventListener('click', function(e) {
+            e.preventDefault();
+            searchInput.value = '';
+            searchResults.innerHTML = '';
+            searchHistoryDropdown.classList.remove('open');
+            searchInput.focus();
+        });
+        
+        // Show history on focus (if there's previous searches)
+        searchInput.addEventListener('focus', function() {
+            const history = loadSearchHistory();
+            if (history.length > 0 && !this.value) {
+                updateHistoryDropdown();
+                searchHistoryDropdown.classList.add('open');
+            }
+        });
+        
+        // Hide history on blur (with delay to allow click on history items)
+        searchInput.addEventListener('blur', function() {
+            setTimeout(() => {
+                searchHistoryDropdown.classList.remove('open');
+                if (!this.value.trim()) {
+                    searchResults.innerHTML = '';
+                }
+            }, 200);
+        });
+        
+        /**
+         * Keyboard navigation
+         * - Arrow Up/Down: Navigate through results
+         * - Enter: Select highlighted result or perform search
+         * - Escape: Close history dropdown
+         */
+        searchInput.addEventListener('keydown', function(e) {
+            const isHistoryOpen = searchHistoryDropdown.classList.contains('open');
+            
+            if (e.key === 'ArrowDown') {
+                e.preventDefault();
+                if (isHistoryOpen) {
+                    searchHistoryDropdown.classList.remove('open');
+                } else {
+                    navigateResults('down');
+                }
+            } else if (e.key === 'ArrowUp') {
+                e.preventDefault();
+                navigateResults('up');
+            } else if (e.key === 'Enter') {
+                e.preventDefault();
+                if (isHistoryOpen) {
+                    searchHistoryDropdown.classList.remove('open');
+                } else if (currentHighlightedIndex !== -1) {
+                    selectHighlightedResult();
+                } else {
+                    // Trigger search if not already done via debounce
+                    performSearch(this.value);
+                }
+            } else if (e.key === 'Escape') {
+                e.preventDefault();
+                searchHistoryDropdown.classList.remove('open');
+            }
+        });
+        
+        // Load history on page load
+        window.addEventListener('DOMContentLoaded', updateHistoryDropdown);
+        
+        // Recipe of the Day functionality
+        const recipeOfDayContainer = document.getElementById('recipeOfDayContainer');
+        
+        /**
+         * Fetch and display the recipe of the day when page loads
+         */
+        async function loadRecipeOfTheDay() {
+            try {
+                recipeOfDayContainer.innerHTML = '<div class="recipe-of-day-loading"><p><span class="recipe-of-day-spinner"></span>Loading today\'s featured recipe...</p></div>';
+                
+                const response = await fetch('/api/recipes/daily');
+                if (!response.ok) {
+                    throw new Error('Failed to fetch recipe of the day');
+                }
+                
+                const recipe = await response.json();
+                displayRecipeOfTheDay(recipe);
+            } catch (error) {
+                console.error('Error loading recipe of the day:', error);
+                recipeOfDayContainer.innerHTML = `
+                    <div class="recipe-of-day-error">
+                        <strong>Unable to load today's recipe</strong>
+                        <p>Please refresh the page or try again later.</p>
+                    </div>
+                `;
+            }
+        }
+        
+        /**
+         * Display the recipe of the day card with all details
+         */
+        function displayRecipeOfTheDay(recipe) {
+            const difficultyClass = (recipe.difficultyLevel || 'easy').toLowerCase();
+            
+            recipeOfDayContainer.innerHTML = `
+                <div class="recipe-of-day-card">
+                    <div class="recipe-of-day-header">
+                        <div>
+                            <h3 class="recipe-of-day-title">${escapeHtml(recipe.name)}</h3>
+                        </div>
+                        <span class="recipe-of-day-badge">Today's Pick</span>
+                    </div>
+                    
+                    <p class="recipe-of-day-description">${escapeHtml(recipe.description || 'A delicious recipe selected just for you!')}</p>
+                    
+                    <div class="recipe-of-day-meta">
+                        <span class="recipe-of-day-badge-cuisine">🌍 ${escapeHtml(recipe.cuisineType || 'Cuisine')}</span>
+                        <span class="recipe-of-day-badge-difficulty ${difficultyClass}">
+                            📊 ${escapeHtml(recipe.difficultyLevel || 'Easy')}
+                        </span>
+                    </div>
+                    
+                    <div class="recipe-of-day-times">
+                        <div class="time-item">
+                            <div class="time-label">Prep Time</div>
+                            <div class="time-value">${recipe.prepTime || 0}<span style="font-size: 0.6em; margin-left: 3px;">min</span></div>
+                        </div>
+                        <div class="time-item">
+                            <div class="time-label">Cook Time</div>
+                            <div class="time-value">${recipe.cookTime || 0}<span style="font-size: 0.6em; margin-left: 3px;">min</span></div>
+                        </div>
+                        <div class="time-item">
+                            <div class="time-label">Servings</div>
+                            <div class="time-value">${recipe.servings || '?'}</div>
+                        </div>
+                    </div>
+                    
+                    <div class="recipe-of-day-button-group">
+                        <a href="/recipes" class="recipe-of-day-button">View Full Recipe →</a>
+                        <button class="recipe-of-day-button-random" onclick="showRandomRecipe()" title="Get a random recipe">🎲 Show Random Recipe</button>
+                    </div>
+                </div>
+            `;
+        }
+        
+        /**
+         * Fetch and display a random recipe
+         */
+        async function showRandomRecipe() {
+            try {
+                recipeOfDayContainer.innerHTML = '<div class="recipe-of-day-loading"><p><span class="recipe-of-day-spinner"></span>Selecting a random recipe...</p></div>';
+                
+                const response = await fetch('/api/recipes');
+                if (!response.ok) {
+                    throw new Error('Failed to fetch recipes');
+                }
+                
+                const recipes = await response.json();
+                if (!Array.isArray(recipes) || recipes.length === 0) {
+                    throw new Error('No recipes available');
+                }
+                
+                // Select a random recipe
+                const randomIndex = Math.floor(Math.random() * recipes.length);
+                const randomRecipe = recipes[randomIndex];
+                displayRecipeOfTheDay(randomRecipe);
+            } catch (error) {
+                console.error('Error loading random recipe:', error);
+                recipeOfDayContainer.innerHTML = `
+                    <div class="recipe-of-day-error">
+                        <strong>Unable to load a random recipe</strong>
+                        <p>Please try again or check the page connection.</p>
+                    </div>
+                `;
+            }
+        }
+        
+        // Load recipe of the day when page loads
+        window.addEventListener('load', loadRecipeOfTheDay);
+    </script>
 </body>
 </html>
